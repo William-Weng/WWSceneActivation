@@ -1,0 +1,15 @@
+{
+  "originHash" : "87f3e3e79af2bdec042c8209eeba92b983a40fd14e9811618dc9ab72faf246cb",
+  "pins" : [
+    {
+      "identity" : "wwsceneactivation",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/William-Weng/WWSceneActivation",
+      "state" : {
+        "revision" : "f149ed8ab6d6724a16a1493582320a1284192177",
+        "version" : "0.5.0"
+      }
+    }
+  ],
+  "version" : 3
+}

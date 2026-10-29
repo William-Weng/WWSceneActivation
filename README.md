@@ -12,6 +12,8 @@
 
 它將任何符合 `DataSource` 的資料模型包裝成 `NSUserActivity`，再透過 UIKit 的 scene activation API，請求系統啟用既有 `UIWindowScene`，或在需要時建立新的視窗。
 
+https://github.com/user-attachments/assets/0867cbff-03e1-48f5-83a0-77fed21f9e97
+
 ## ✨ 特色
 
 - 將文件、專案、訊息等資料模型抽象成可開啟的 `DataSource`

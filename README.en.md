@@ -12,6 +12,8 @@
 
 It wraps any data model conforming to `DataSource` into an `NSUserActivity`, then uses UIKit’s scene activation APIs to ask the system to activate an existing `UIWindowScene` or create a new window when needed.
 
+https://github.com/user-attachments/assets/0867cbff-03e1-48f5-83a0-77fed21f9e97
+
 ## ✨ Features
 
 - Abstract documents, projects, messages, and other models into an openable `DataSource`
