@@ -13,11 +13,6 @@ import UIKit
 ///
 public struct WWSceneActivation {
     
-    /// 目前應用程式是否支援同時開啟多個 scene / 視窗
-    static var supportsMultipleScenes: Bool {
-        UIApplication.shared.supportsMultipleScenes
-    }
-    
     let activityType: String    // 此 activation 的 activity type
     let userInfoKey: String     // 寫入 `NSUserActivity.userInfo` 時使用的 key
     
@@ -31,6 +26,62 @@ public struct WWSceneActivation {
         self.userInfoKey = keyID
     }
 }
+
+// MARK: - 公開參數
+public extension WWSceneActivation {
+    
+    /// 目前應用程式是否支援同時開啟多個 scene / 視窗
+    static var supportsMultipleScenes: Bool {
+        UIApplication.shared.supportsMultipleScenes
+    }
+    
+    /// 目前應用程式所有已連線的 scenes
+    static var connectedScenes: Set<UIScene> {
+        UIApplication.shared.connectedScenes
+    }
+    
+    /// 目前擁有 key window 的視窗 scene
+    static var keyWindowScene: UIWindowScene? {
+        connectedWindowScenes.first { $0.keyWindow != nil }
+    }
+    
+    /// 前景 active 且擁有 key window 的視窗 scene
+    static var foregroundActiveKeyWindowScene: UIWindowScene? {
+        foregroundActiveWindowScenes.first { $0.keyWindow != nil }
+    }
+    
+    /// 目前的 key window
+    static var keyWindow: UIWindow? {
+        keyWindowScene?.keyWindow
+    }
+    
+    /// 目前已連線的視窗 scenes
+    static var connectedWindowScenes: [UIWindowScene] {
+        connectedScenes.compactMap { $0 as? UIWindowScene }
+    }
+    
+    /// 目前正在前景顯示、且正在接收事件的視窗 scenes
+    static var foregroundActiveWindowScenes: [UIWindowScene] {
+        connectedWindowScenes.filter { $0.activationState == .foregroundActive }
+    }
+    
+    /// 目前仍在背景的視窗 scenes
+    static var backgroundWindowScenes: [UIWindowScene] {
+        connectedWindowScenes.filter { $0.activationState == .background }
+    }
+    
+    /// 目前位於前景的視窗 scenes（包含 active 與暫時 inactive）
+    static var foregroundWindowScenes: [UIWindowScene] {
+        let foregroundStates: Set<UIScene.ActivationState> = [.foregroundActive, .foregroundInactive]
+        return connectedWindowScenes.filter { foregroundStates.contains($0.activationState) }
+    }
+}
+
+
+| 方法 | 說明 |
+| --- | --- |
+| `supportsMultipleScenes` | 目前應用程式是否支援同時開啟多個 scene / 視窗。 |
+
 
 // MARK: - 公開函式
 public extension WWSceneActivation {
@@ -57,21 +108,17 @@ public extension WWSceneActivation {
         return UISceneSessionActivationRequest(role: .windowApplication, userActivity: makeActivity(for: dataSource), options: options)
     }
     
-    /// 向系統請求為指定內容啟用 scene session。
+    /// 向系統請求為指定內容啟用 scene session
     ///
-    /// 系統可能會聚焦已顯示相同內容的既有 scene，
-    /// 也可能會建立新的 `UIWindowScene`。
+    /// 系統可能會聚焦已顯示相同內容的既有 scene，也可能會建立新的 `UIWindowScene`
     ///
     /// - Parameters:
     ///   - dataSource: 要在新視窗中顯示的資料模型。
-    ///   - requestingScene: 發起這次請求的既有視窗 scene；可為 `nil`。
-    ///   - errorHandler: scene 啟用失敗時要執行的 handler。
+    ///   - requestingScene: 發起這次請求的既有視窗 scene；可為 `nil`
+    ///   - errorHandler: scene 啟用失敗時要執行的 handler
     func requestSceneActivation(for dataSource: any DataSource, requestingScene: UIWindowScene?, errorHandler: ((Error) -> Void)? = nil) {
         
-        guard Self.supportsMultipleScenes else {
-            errorHandler?(CustomError.multipleScenesUnsupported)
-            return
-        }
+        guard Self.supportsMultipleScenes else { errorHandler?(CustomError.multipleScenesUnsupported); return }
         
         let activity = makeActivity(for: dataSource)
         let options = UIScene.ActivationRequestOptions()

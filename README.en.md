@@ -74,13 +74,44 @@ Multiple scenes may access the same data at the same time. If your app uses a sh
 
 ## 📚 API Overview
 
+### Public Function
+
 | API | Description |
 | --- | --- |
-| `supportsMultipleScenes` | Whether the app currently supports multiple simultaneous scenes or windows. |
 | `init(activityType:keyID:)` | Creates a multi-window activation helper. |
 | `makeConfiguration(for:)` | Creates an activation configuration for declarative scene activation APIs. |
 | `makeRequest(for:requestingScene:)` | Creates a scene session activation request for `UIApplication.activateSceneSession(for:errorHandler:)`. |
 | `requestSceneActivation(for:requestingScene:errorHandler:)` | Asks the system to activate a scene session for the given content. |
+
+### Public Properties
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `supportsMultipleScenes` | `Bool` | Whether the app currently supports opening multiple scenes / windows simultaneously. |
+| `connectedScenes` | `Set<UIScene>` | All scenes currently connected to the app, including foreground and background scenes. |
+| `connectedWindowScenes` | `[UIWindowScene]` | The currently connected window scenes; filters `UIScene` instances and casts them to `UIWindowScene`. |
+| `foregroundActiveWindowScenes` | `[UIWindowScene]` | Window scenes currently displayed in the foreground and actively receiving events. |
+| `foregroundWindowScenes` | `[UIWindowScene]` | Window scenes currently in the foreground, including both `foregroundActive` and temporarily `foregroundInactive` scenes. |
+| `backgroundWindowScenes` | `[UIWindowScene]` | Window scenes currently in the background; their UI is not visible, but they may retain state or handle system events. |
+| `keyWindowScene` | `UIWindowScene?` | The window scene that currently owns the key window. |
+| `foregroundActiveKeyWindowScene` | `UIWindowScene?` | A foreground-active window scene that owns the key window. |
+| `keyWindow` | `UIWindow?` | The current key window. |
+
+### Activation States
+
+| State | Description |
+| --- | --- |
+| `foregroundActive` | The scene is in the foreground and is currently receiving events; this usually represents the window the user is interacting with. |
+| `foregroundInactive` | The scene is in the foreground but temporarily not receiving events, such as while Control Center, Notification Center, or the app switcher is presented. |
+| `background` | The scene has moved to the background; its UI is not visible, but it may retain state, handle certain system events, or return to the foreground later. |
+| `unattached` | The scene is not yet attached to a session; this is usually a transitional state. |
+
+### Multi-Window Notes
+
+- On iPadOS, multiple `UIWindowScene` instances can be `foregroundActive` at the same time, so `foregroundActiveWindowScenes` may return more than one scene.
+- `connectedScenes` includes both foreground and background scenes that remain in memory. Use `foregroundActiveWindowScenes` when working with UI that is visible and interactive.
+- The key window receives keyboard events and other events without a relevant coordinate. In a multi-scene app, query `UIWindowScene.keyWindow` instead of the deprecated `UIApplication.shared.keyWindow`.
+- Background scenes should not be treated as visible or generally interactive UI. They can also be disconnected by the system to reclaim resources, so avoid relying on them to preserve unique long-term state.
 
 ## 🧩 DataSource
 

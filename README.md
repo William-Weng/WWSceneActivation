@@ -74,13 +74,44 @@ import WWSceneActivation
 
 ## 📚 API 總覽
 
+### 公開函數
+
 | 方法 | 說明 |
 | --- | --- |
-| `supportsMultipleScenes` | 目前應用程式是否支援同時開啟多個 scene / 視窗。 |
 | `init(activityType:keyID:)` | 建立一個多視窗啟動輔助物件。 |
 | `makeConfiguration(for:)` | 建立可供宣告式 scene activation API 使用的設定。 |
 | `makeRequest(for:requestingScene:)` | 建立可供 UIApplication.activateSceneSession(for:errorHandler:) 使用的 scene session activation request。 |
 | `requestSceneActivation(for:requestingScene:errorHandler:)` | 向系統請求為指定內容啟用 scene session。 |
+
+### 公開參數
+
+| 屬性 | 型別 | 說明 |
+| --- | --- | --- |
+| `supportsMultipleScenes` | `Bool` | 目前應用程式是否支援同時開啟多個 scene / 視窗。 |
+| `connectedScenes` | `Set<UIScene>` | 目前應用程式所有已連線的 scenes，包含前景與背景 scene。 |
+| `connectedWindowScenes` | `[UIWindowScene]` | 目前已連線的視窗 scenes；會將 `UIScene` 過濾並轉型為 `UIWindowScene`。 |
+| `foregroundActiveWindowScenes` | `[UIWindowScene]` | 目前正在前景顯示、且正在接收事件的視窗 scenes。 |
+| `foregroundWindowScenes` | `[UIWindowScene]` | 目前位於前景的視窗 scenes，包含 `foregroundActive` 與暫時的 `foregroundInactive`。 |
+| `backgroundWindowScenes` | `[UIWindowScene]` | 目前仍在背景的視窗 scenes；這些 scene 可能仍保留狀態或處理系統事件，但 UI 不可見。 |
+| `keyWindowScene` | `UIWindowScene?` | 目前擁有 key window 的視窗 scene。 |
+| `foregroundActiveKeyWindowScene` | `UIWindowScene?` | 前景 active 且擁有 key window 的視窗 scene。 |
+| `keyWindow` | `UIWindow?` | 目前的 key window。 |
+
+### 狀態說明
+
+| 狀態 | 說明 |
+| --- | --- |
+| `foregroundActive` | Scene 位於前景，並且正在接收事件；通常代表使用者正在互動的視窗。 |
+| `foregroundInactive` | Scene 位於前景，但暫時不接收事件，例如開啟 Control Center、通知中心，或正在切換 app。 |
+| `background` | Scene 已進入背景；UI 不可見，但仍可能保留狀態、處理特定系統事件，或在稍後回到前景。 |
+| `unattached` | Scene 尚未附加到 session，通常為過渡狀態。 |
+
+### 多視窗注意事項
+
+- iPadOS 可能同時有多個 `UIWindowScene` 處於 `foregroundActive`，因此 `foregroundActiveWindowScenes` 不一定只回傳一個 scene。
+- `connectedScenes` 包含仍在記憶體中的前景與背景 scenes；若要操作使用者可見且可互動的 UI，應使用 `foregroundActiveWindowScenes`。
+- `keyWindow` 代表接收鍵盤與其他非座標事件的視窗；在多視窗架構下，應透過 `UIWindowScene.keyWindow` 查詢，而不是使用已棄用的 `UIApplication.shared.keyWindow`。
+- 背景 scene 不應被視為可顯示或可接收一般使用者事件的 UI；它們也可能被系統回收，因此不應依賴背景 scene 長期保存唯一資料。
 
 ## 🧩 DataSource
 

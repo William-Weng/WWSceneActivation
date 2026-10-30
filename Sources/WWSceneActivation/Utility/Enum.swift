@@ -5,7 +5,7 @@
 //  Created by William.Weng on 2026/10/29.
 //
 
-import Foundation
+import UIKit
 
 extension WWSceneActivation {
     
@@ -20,3 +20,4 @@ extension WWSceneActivation {
         }
     }
 }
+
