@@ -78,6 +78,10 @@ import WWSceneActivation
 
 | 方法 | 說明 |
 | --- | --- |
+| `closeScene(_:errorHandler:)` | 關閉指定的 `UIScene`。此方法會向系統請求銷毀該 scene 及其對應的 `UISceneSession`；系統可能延遲處理或拒絕請求，因此可透過 `errorHandler` 處理失敗情況。 |
+| `closeWindowScene(_:errorHandler:)` | 關閉指定的 `UIWindowScene`。這是 `closeScene(_:errorHandler:)` 的便利版本，提供更明確的視窗 scene 型別。 |
+| `closeAllScenes(except:errorHandler:)` | 只保留指定的 `UIScene`，並關閉其他所有已連線的 scenes。適用於需要保留非視窗類型 scene 的情境。 |
+| `closeAllWindowScenes(except:errorHandler:)` | 只保留指定的 `UIWindowScene`，並關閉其他所有已連線的視窗 scenes。適用於多視窗應用程式中，將畫面收斂到單一指定視窗的情境。 |
 | `init(activityType:keyID:)` | 建立一個多視窗啟動輔助物件。 |
 | `makeConfiguration(for:)` | 建立可供宣告式 scene activation API 使用的設定。 |
 | `makeRequest(for:requestingScene:)` | 建立可供 UIApplication.activateSceneSession(for:errorHandler:) 使用的 scene session activation request。 |

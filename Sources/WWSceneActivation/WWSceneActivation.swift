@@ -77,6 +77,63 @@ public extension WWSceneActivation {
     }
 }
 
+// MARK: - 關閉 Scene
+public extension WWSceneActivation {
+    
+    /// 關閉指定的 scene
+    ///
+    /// 向系統請求銷毀該 scene 及其對應的 `UISceneSession`。
+    /// 系統可能延遲處理或拒絕請求，因此應透過 `errorHandler` 處理失敗情況。
+    ///
+    /// - Parameters:
+    ///   - scene: 要關閉的 scene
+    ///   - errorHandler: 關閉失敗時要執行的 handler
+    @MainActor
+    static func closeScene(_ scene: UIScene, errorHandler: ((Error) -> Void)? = nil) {
+        UIApplication.shared.requestSceneSessionDestruction(scene.session, options: nil) { errorHandler?($0) }
+    }
+    
+    /// 關閉指定的視窗 scene
+    ///
+    /// - Parameters:
+    ///   - windowScene: 要關閉的 `UIWindowScene`
+    ///   - errorHandler: 關閉失敗時要執行的 handler
+    @MainActor
+    static func closeWindowScene(_ windowScene: UIWindowScene, errorHandler: ((Error) -> Void)? = nil) {
+        closeScene(windowScene, errorHandler: errorHandler)
+    }
+    
+    /// 只保留指定的視窗 scene，並關閉其他所有視窗 scenes
+    ///
+    /// - Parameters:
+    ///   - windowScene: 要保留的視窗 scene
+    ///   - errorHandler: 每個關閉失敗時要執行的 handler
+    @MainActor
+    static func closeAllWindowScenes(except windowScene: UIWindowScene, errorHandler: ((Error) -> Void)? = nil) {
+        
+        let scenesToClose = connectedWindowScenes.filter { $0 !== windowScene }
+        
+        for scene in scenesToClose {
+            closeWindowScene(scene, errorHandler: errorHandler)
+        }
+    }
+    
+    /// 只保留指定的 scene，並關閉其他所有 scenes
+    ///
+    /// - Parameters:
+    ///   - scene: 要保留的 scene
+    ///   - errorHandler: 每個關閉失敗時要執行的 handler
+    @MainActor
+    static func closeAllScenes(except scene: UIScene, errorHandler: ((Error) -> Void)? = nil) {
+        
+        let scenesToClose = connectedScenes.filter { $0 !== scene }
+        
+        for sceneToClose in scenesToClose {
+            closeScene(sceneToClose, errorHandler: errorHandler)
+        }
+    }
+}
+
 // MARK: - 公開函式
 public extension WWSceneActivation {
     

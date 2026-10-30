@@ -78,6 +78,10 @@ Multiple scenes may access the same data at the same time. If your app uses a sh
 
 | API | Description |
 | --- | --- |
+| `closeScene(_:errorHandler:)` | Closes the specified `UIScene`. Requests that the system destroy the scene and its associated `UISceneSession`. The system may delay or reject the request, so use `errorHandler` to handle failures. |
+| `closeWindowScene(_:errorHandler:)` | Closes the specified `UIWindowScene`. This is a convenience wrapper around `closeScene(_:errorHandler:)` with a more specific window-scene type. |
+| `closeAllScenes(except:errorHandler:)` | Keeps only the specified `UIScene` and closes all other connected scenes. Useful when non-window scenes may also be present. |
+| `closeAllWindowScenes(except:errorHandler:)` | Keeps only the specified `UIWindowScene` and closes all other connected window scenes. Useful for collapsing a multi-window app to a single specified window. |
 | `init(activityType:keyID:)` | Creates a multi-window activation helper. |
 | `makeConfiguration(for:)` | Creates an activation configuration for declarative scene activation APIs. |
 | `makeRequest(for:requestingScene:)` | Creates a scene session activation request for `UIApplication.activateSceneSession(for:errorHandler:)`. |

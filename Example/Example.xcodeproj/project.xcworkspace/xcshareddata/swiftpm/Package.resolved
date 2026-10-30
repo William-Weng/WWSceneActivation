@@ -6,8 +6,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/William-Weng/WWSceneActivation",
       "state" : {
-        "revision" : "aad702bf408538da0c9a2f4531746eaa596f53e9",
-        "version" : "0.5.1"
+        "revision" : "af7ba19ccc29dd27b59eb3191248cbc1cc63e40d",
+        "version" : "0.5.2"
       }
     }
   ],

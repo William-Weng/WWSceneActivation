@@ -10,7 +10,8 @@
 		81239A3F30931ABD006A0AA4 /* WWSceneActivation in Frameworks */ = {isa = PBXBuildFile; productRef = 81239A3E30931ABD006A0AA4 /* WWSceneActivation */; };
 		81B0965930944B3F00CF053C /* WWSceneActivation in Frameworks */ = {isa = PBXBuildFile; productRef = 81B0965830944B3F00CF053C /* WWSceneActivation */; };
 		81B0965F3094649F00CF053C /* WWSceneActivation in Frameworks */ = {isa = PBXBuildFile; productRef = 81B0965E3094649F00CF053C /* WWSceneActivation */; };
-		81B096623094661100CF053C /* WWSceneActivation in Frameworks */ = {isa = PBXBuildFile; productRef = 81B096613094661100CF053C /* WWSceneActivation */; };
+		81B09665309466DD00CF053C /* WWSceneActivation in Frameworks */ = {isa = PBXBuildFile; productRef = 81B09664309466DD00CF053C /* WWSceneActivation */; };
+		81B096683094745300CF053C /* WWSceneActivation in Frameworks */ = {isa = PBXBuildFile; productRef = 81B096673094745300CF053C /* WWSceneActivation */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,7 +46,8 @@
 				81239A3F30931ABD006A0AA4 /* WWSceneActivation in Frameworks */,
 				81B0965F3094649F00CF053C /* WWSceneActivation in Frameworks */,
 				81B0965930944B3F00CF053C /* WWSceneActivation in Frameworks */,
-				81B096623094661100CF053C /* WWSceneActivation in Frameworks */,
+				81B096683094745300CF053C /* WWSceneActivation in Frameworks */,
+				81B09665309466DD00CF053C /* WWSceneActivation in Frameworks */,
 			);
 		};
 /* End PBXFrameworksBuildPhase section */
@@ -88,7 +90,8 @@
 				81239A3E30931ABD006A0AA4 /* WWSceneActivation */,
 				81B0965830944B3F00CF053C /* WWSceneActivation */,
 				81B0965E3094649F00CF053C /* WWSceneActivation */,
-				81B096613094661100CF053C /* WWSceneActivation */,
+				81B09664309466DD00CF053C /* WWSceneActivation */,
+				81B096673094745300CF053C /* WWSceneActivation */,
 			);
 			productName = MultipleScenesDemo;
 			productReference = 8111B6C63091E1AD0001CB73 /* Example.app */;
@@ -119,7 +122,7 @@
 			mainGroup = 8111B6BD3091E1AD0001CB73;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				81B096603094661100CF053C /* XCRemoteSwiftPackageReference "WWSceneActivation" */,
+				81B096663094745300CF053C /* XCRemoteSwiftPackageReference "WWSceneActivation" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 8111B6C73091E1AD0001CB73 /* Products */;
@@ -365,12 +368,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		81B096603094661100CF053C /* XCRemoteSwiftPackageReference "WWSceneActivation" */ = {
+		81B096663094745300CF053C /* XCRemoteSwiftPackageReference "WWSceneActivation" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/William-Weng/WWSceneActivation";
 			requirement = {
 				kind = upToNextMinorVersion;
-				minimumVersion = 0.5.2;
+				minimumVersion = 0.6.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -388,9 +391,13 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = WWSceneActivation;
 		};
-		81B096613094661100CF053C /* WWSceneActivation */ = {
+		81B09664309466DD00CF053C /* WWSceneActivation */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 81B096603094661100CF053C /* XCRemoteSwiftPackageReference "WWSceneActivation" */;
+			productName = WWSceneActivation;
+		};
+		81B096673094745300CF053C /* WWSceneActivation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 81B096663094745300CF053C /* XCRemoteSwiftPackageReference "WWSceneActivation" */;
 			productName = WWSceneActivation;
 		};
 /* End XCSwiftPackageProductDependency section */
