@@ -77,12 +77,6 @@ public extension WWSceneActivation {
     }
 }
 
-
-| 方法 | 說明 |
-| --- | --- |
-| `supportsMultipleScenes` | 目前應用程式是否支援同時開啟多個 scene / 視窗。 |
-
-
 // MARK: - 公開函式
 public extension WWSceneActivation {
     
